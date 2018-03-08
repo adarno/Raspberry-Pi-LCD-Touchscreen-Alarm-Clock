@@ -18,6 +18,12 @@ class AlarmForm(QtGui.QWidget):
         self.btnOK.clicked.connect(self.add_alarm)
         grid.addWidget(self.btnOK, 4, 0)
 
+        self.setLayout(grid)
+
+        self.setGeometry(300, 300, 290, 150)
+        self.setWindowTitle('New Alarm')
+        self.show()
+
 
     def add_alarm(self):
         alarm_id = len(self.main_window.alarms)
