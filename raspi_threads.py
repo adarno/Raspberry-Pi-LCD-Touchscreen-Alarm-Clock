@@ -124,7 +124,7 @@ class AlarmClockThread(QtCore.QThread):
     def run(self):
         print("started alarm thread")
         while not self.stop_request:
-            current_time = str(datetime.datetime.today().strftime("%H:%M"))
+            current_time = str(datetime.datetime.today().strftime("%H : %M"))
             if current_time == self.alarm_time:
                 self.onAlarm.emit()
                 if not self.repeat:
