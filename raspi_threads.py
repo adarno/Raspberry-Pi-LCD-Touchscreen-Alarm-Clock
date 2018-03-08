@@ -1,5 +1,6 @@
 from PyQt4 import QtCore
 import time
+import datetime
 
 
 class MyThread(QtCore.QThread):
@@ -101,3 +102,22 @@ class TimerThread(QtCore.QThread):
         if self.count == 0:
             self.onFinished.emit()
             self.resume = False
+
+
+class AlarmClockThread(QtCore.QThread):
+
+    onAlarm = QtCore.pyqtSignal(int)
+
+    def __init__(self, alarm_time):
+        super(AlarmClockThread, self).__init__()
+        self.alarm_time = alarm_time
+        self.stop_request = False
+
+    def abort(self):
+        self.stop_request = True
+
+    def run(self):
+        while not self.stop_request:
+            time = str(datetime.datetime.today().strftime("%H:%M:%S"))
+            if time == self.alarm_time:
+                self.onAlarm.emit()

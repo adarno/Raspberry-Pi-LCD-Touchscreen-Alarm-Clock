@@ -10,9 +10,10 @@ import datetime
 try:
     import rpi_backlight as bl
 except:
-    print("error importing rpi_backlight")
+    print >> sys.stderr, "Python modlue 'rpi_backlight' not installed." \
+                         "\nVisit https://github.com/linusg/rpi-backlight.git to install."
 
-# convert to mainwindow.ui to pyhton
+# convert mainwindow.ui to pyhton
 qtCreatorFile = "mainwindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
