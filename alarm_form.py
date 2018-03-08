@@ -4,13 +4,12 @@ from raspi_threads import AlarmClockThread
 from alarm_window import Ui_Alarm_window
 
 
-class AlarmForm(QtGui.QWidget, Ui_Alarm_window):
+class AlarmForm(QtGui.QWidget):
 
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        Ui_Alarm_window.__init__(self)
-        #self.setupUi(self, Ui_Alarm_window)
-        self.show()
+
+        self.btn = QtGui.QPushButton("OK", self)
 
 
     def add_alarm(self):

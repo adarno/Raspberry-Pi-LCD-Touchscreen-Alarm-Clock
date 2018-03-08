@@ -115,7 +115,6 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         # open new window to set alarm
 
         alarm_window = AlarmForm()
-        alarm_window.show()
 
         """alarm = AlarmClockThread()
         self.alarms.append(alarm)
