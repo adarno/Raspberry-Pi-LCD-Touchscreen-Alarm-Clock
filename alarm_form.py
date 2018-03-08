@@ -12,8 +12,50 @@ class AlarmForm(QtGui.QDialog, Ui_Alarm_window):
         self.ui = Ui_Alarm_window()
         self.ui.setupUi(self)
         self.ui.btnOK.setDefault(True)
+
+        self.ui.btnOK.clicked.connect(self.add_alarm)
+        self.ui.btnQuit.clicked.connect(self.quit)
+
+        self.ui.btnHourPlus.clicked.connect(self.hour_plus)
+        self.ui.btnHourMinus.clicked.connect(self.hour_min)
+        self.ui.btnMinPlus.clicked.connect(self.min_plus)
+        self.ui.btnMinMinus.clicked.connect(self.min_min)
+
+        self.timeM = 0
+        self.timeH = 0
+
         self.show()
 
+    def show_wake_time(self):
+
+        minutes = self.timeM % 60
+        hours = self.timeH % 24
+
+
+        if minutes < 10:
+            minutes = "0"+str(minutes)
+        if hours < 10:
+            hours = "0"+str(hours)
+
+        self.ui.label_wake_time.setText(str(hours)+" : "+str(minutes))
+
+    def hour_plus(self):
+        self.timeH += 1
+        self.show_wake_time()
+
+    def hour_min(self):
+        if self.timeH > 0:
+            self.timeH -= 1
+        self.show_wake_time()
+
+    def min_plus(self):
+        self.timeM += 1
+        self.show_wake_time()
+
+    def min_min(self):
+        if self.timeM > 0:
+            self.timeM -= 1
+        self.show_wake_time()
 
 
     def add_alarm(self):
