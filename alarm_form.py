@@ -1,46 +1,17 @@
 import sys
-from PyQt4 import QtGui, QtCore, uic
+from PyQt4 import QtGui, QtCore
 from raspi_threads import AlarmClockThread
-
-# convert mainwindow.ui to pyhton
-qtCreatorFile = "alarm_form/alarm_form/alarmform.ui"
-Ui_Alarm, QtBaseClass = uic.loadUiType(qtCreatorFile)
+from alarm_window import Ui_Alarm_window
 
 
-class AlarmForm(QtGui.QWidget, Ui_Alarm):
+class AlarmForm(QtGui.QWidget, Ui_Alarm_window):
 
-
-    def __init__(self, main_window):
-        super(AlarmForm, self).__init__()
-        Ui_Alarm.__init__(self)
-
-        self.main_window = main_window
-
-        # set layout
-        grid = QtGui.QGridLayout()
-        grid.setSpacing(10)
-
-        # buttons
-        self.btnOK = QtGui.QPushButton('OK', self)
-        self.btnOK.clicked.connect(self.add_alarm)
-        grid.addWidget(self.btnOK, 4, 0)
-
-        self.btnQuit = QtGui.QPushButton("Abbrechen", self)
-        self.btnQuit.clicked.connect(self.quit)
-        grid.addWidget(self.btnQuit, 4, 1)
-
-        # lable
-        self.label_hour = QtGui.QLabel("00 : 00", self)
-        self.label_hour.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
-        self.label_hour.setAlignment(QtCore.Qt.AlignCenter)
-
-        grid.addWidget(self.label_hour, 2, 1)
-
-        self.setLayout(grid)
-
-        self.setGeometry(300, 300, 290, 150)
-        self.setWindowTitle('New Alarm')
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        Ui_Alarm_window.__init__(self)
+        #self.setupUi(self, Ui_Alarm_window)
         self.show()
+
 
     def add_alarm(self):
         alarm_id = len(self.main_window.alarms)

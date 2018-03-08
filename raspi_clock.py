@@ -10,6 +10,7 @@ except:
 from raspi_threads import MyThread, TimerThread, StopWatchThread, AlarmClockThread
 from alarm_form import AlarmForm
 import datetime
+from alarm_window import Ui_Alarm_window
 
 try:
     import rpi_backlight as bl
@@ -113,8 +114,8 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
         # open new window to set alarm
 
-        self.alarm_form = AlarmForm(self)
-
+        alarm_window = AlarmForm()
+        alarm_window.show()
 
         """alarm = AlarmClockThread()
         self.alarms.append(alarm)
