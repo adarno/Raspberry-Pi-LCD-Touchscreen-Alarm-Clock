@@ -9,25 +9,11 @@ class AlarmForm(QtGui.QDialog, Ui_Alarm_window):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
 
-        ui = Ui_Alarm_window()
-        ui.setupUi(self)
+        self.ui = Ui_Alarm_window()
+        self.ui.setupUi(self)
+        self.ui.btnOK.setDefault(True)
         self.show()
 
-
-        """"# set layout
-        grid = QtGui.QGridLayout()
-        grid.setSpacing(10)
-
-        # buttons
-        self.btnOK = QtGui.QPushButton('OK', self)
-        self.btnOK.clicked.connect(self.add_alarm)
-        grid.addWidget(self.btnOK, 4, 0)
-
-        self.setLayout(grid)
-
-        self.setGeometry(300, 300, 290, 150)
-        self.setWindowTitle('New Alarm')"""
-        self.show()
 
 
     def add_alarm(self):
