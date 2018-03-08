@@ -11,16 +11,25 @@ class AlarmForm(QtGui.QWidget):
 
         self.main_window = main_window
 
+        # set layout
         grid = QtGui.QGridLayout()
         grid.setSpacing(10)
 
+        # buttons
         self.btnOK = QtGui.QPushButton('OK', self)
         self.btnOK.clicked.connect(self.add_alarm)
-        grid.addWidget(self.btnOK, 1, 0)
+        grid.addWidget(self.btnOK, 4, 0)
 
         self.btnQuit = QtGui.QPushButton("Abbrechen", self)
         self.btnQuit.clicked.connect(self.quit)
-        grid.addWidget(self.btnQuit, 2, 0)
+        grid.addWidget(self.btnQuit, 4, 1)
+
+        # lable
+        self.label_hour = QtGui.QLabel("00 : 00", self)
+        self.label_hour.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        self.label_hour.setAlignment(QtCore.Qt.AlignCenter)
+
+        grid.addWidget(self.label_hour, 2, 1)
 
         self.setLayout(grid)
 
