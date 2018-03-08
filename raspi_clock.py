@@ -79,6 +79,10 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.btnTimer.clicked.connect(self.start_timer)
         self.btnTimerReset.clicked.connect(self.reset_timer)
 
+        # buttons alarm
+        self.btnNewAlarm.clicked.connect(self.new_alarm)
+        self.alarms = []
+
         ### threads ####
 
         # clock thread
@@ -104,9 +108,15 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
     ##### Wecker  #####
 
-    alarm = AlarmClockThread()
-    alarm.set_alarm('16:03')
-    alarm.start()
+    def new_alarm(self):
+
+        # open new window to set alarm
+        # for now just set alarm using
+
+        alarm = AlarmClockThread()
+        self.alarms.append(alarm)
+        self.alarms[0].set_alarm("16:35")
+        self.alarms[0].start()
 
 
     ##### Stoppuhr ######
