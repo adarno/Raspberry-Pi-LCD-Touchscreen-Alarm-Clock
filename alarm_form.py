@@ -1,13 +1,18 @@
 import sys
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui, QtCore, uic
 from raspi_threads import AlarmClockThread
 
+# convert mainwindow.ui to pyhton
+qtCreatorFile = "alarm_form/alarm_form/alarmform.ui"
+Ui_Alarm, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-class AlarmForm(QtGui.QWidget):
+
+class AlarmForm(QtGui.QWidget, Ui_Alarm):
 
 
     def __init__(self, main_window):
         super(AlarmForm, self).__init__()
+        Ui_Alarm.__init__(self)
 
         self.main_window = main_window
 
