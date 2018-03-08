@@ -4,8 +4,7 @@ import os
 
 from PyQt4 import QtCore, QtGui, uic
 
-from raspi_threads import myThread, TimerThread, stopWatchThread
-import time
+from raspi_threads import MyThread, TimerThread, StopWatchThread
 import datetime
 
 try:
@@ -78,13 +77,13 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
 
         # time thread
-        self.myThread = myThread(self)
+        self.myThread = MyThread(self)
         self.myThread.timeElapsed.connect(self.on_myThread_updateTime)
         self.myThread.quitThread.connect(self.exit)
         self.myThread.start()
 
         # stopewatch thread
-        self.stopWatchThread = stopWatchThread()
+        self.stopWatchThread = StopWatchThread()
         self.stopWatchThread.secondElapsed.connect(self.onSecondElapsed)
 
         # timer thread

@@ -1,12 +1,13 @@
-from PyQt4 import QtCore, QtGui, uic
+from PyQt4 import QtCore
 import time
 
-class myThread(QtCore.QThread):
+
+class MyThread(QtCore.QThread):
     timeElapsed = QtCore.pyqtSignal()
     quitThread = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
-        super(myThread, self).__init__(parent)
+        super(MyThread, self).__init__(parent)
         self.stop_request = False
 
     def quit(self):
@@ -18,11 +19,11 @@ class myThread(QtCore.QThread):
             time.sleep(1)
         self.quitThread.emit()
 
-class stopWatchThread(QtCore.QThread):
+class StopWatchThread(QtCore.QThread):
     secondElapsed = QtCore.pyqtSignal(int)
 
     def __init__(self, parent=None):
-        super(stopWatchThread, self).__init__(parent)
+        super(StopWatchThread, self).__init__(parent)
         self.stop_request = False
         self.count = 0
         self.is_running = False
