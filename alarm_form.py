@@ -9,7 +9,14 @@ class AlarmForm(QtGui.QWidget):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
 
-        self.btn = QtGui.QPushButton("OK", self)
+        # set layout
+        grid = QtGui.QGridLayout()
+        grid.setSpacing(10)
+
+        # buttons
+        self.btnOK = QtGui.QPushButton('OK', self)
+        self.btnOK.clicked.connect(self.add_alarm)
+        grid.addWidget(self.btnOK, 4, 0)
 
 
     def add_alarm(self):
