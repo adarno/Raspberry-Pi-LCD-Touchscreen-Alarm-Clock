@@ -2,9 +2,12 @@
 import sys
 import os
 
-from PyQt4 import QtCore, QtGui, uic
+try:
+    from PyQt4 import QtCore, QtGui, uic
+except:
+    print >> sys.stderr, "PyQt4 not installed\n"
 
-from raspi_threads import MyThread, TimerThread, StopWatchThread
+from raspi_threads import MyThread, TimerThread, StopWatchThread, AlarmClockThread
 import datetime
 
 try:
@@ -19,6 +22,7 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
 class MyApp(QtGui.QMainWindow, Ui_MainWindow):
+
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -75,15 +79,15 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.btnTimer.clicked.connect(self.start_timer)
         self.btnTimerReset.clicked.connect(self.reset_timer)
 
+        ### threads ####
 
-
-        # time thread
+        # clock thread
         self.myThread = MyThread(self)
         self.myThread.timeElapsed.connect(self.on_myThread_updateTime)
         self.myThread.quitThread.connect(self.exit)
         self.myThread.start()
 
-        # stopewatch thread
+        # stopwatch thread
         self.stopWatchThread = StopWatchThread()
         self.stopWatchThread.secondElapsed.connect(self.onSecondElapsed)
 
@@ -99,6 +103,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.labelTime.setText(str(datetime.datetime.today().strftime("%H:%M:%S")))
 
     ##### Wecker  #####
+
+    alarm = AlarmClockThread()
+    alarm.set_alarm('16:03')
+    alarm.start()
+
 
     ##### Stoppuhr ######
 
@@ -136,6 +145,8 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
 
     ##### Timer #####
+
+    # todo: fix reset button issue
 
     def show_timer(self):
 
