@@ -108,11 +108,12 @@ class AlarmClockThread(QtCore.QThread):
 
     onAlarm = QtCore.pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, id):
         super(AlarmClockThread, self).__init__()
         self.alarm_time = ""
         self.stop_request = False
         self.repeat = False
+        self.id = id
 
     def set_alarm(self, alarm_time):
         self.alarm_time = alarm_time
@@ -126,7 +127,6 @@ class AlarmClockThread(QtCore.QThread):
             current_time = str(datetime.datetime.today().strftime("%H:%M"))
             if current_time == self.alarm_time:
                 self.onAlarm.emit()
-                print("alarm")
                 if not self.repeat:
                     break
             time.sleep(5)

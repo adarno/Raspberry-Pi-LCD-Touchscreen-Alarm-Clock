@@ -8,6 +8,7 @@ except:
     print >> sys.stderr, "PyQt4 not installed\n"
 
 from raspi_threads import MyThread, TimerThread, StopWatchThread, AlarmClockThread
+from alarm_form import AlarmForm
 import datetime
 
 try:
@@ -111,12 +112,26 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def new_alarm(self):
 
         # open new window to set alarm
-        # for now just set alarm using
 
-        alarm = AlarmClockThread()
+        self.alarm_form = AlarmForm(self)
+
+
+        """alarm = AlarmClockThread()
         self.alarms.append(alarm)
-        self.alarms[0].set_alarm("16:35")
-        self.alarms[0].start()
+        self.alarms[0].set_alarm("20:20")
+        self.alarms[0].onAlarm.connect(self.on_alarm)
+        self.alarms[0].start()"""
+
+    def on_alarm(self):
+
+        print("alarm")
+        # turn screen on
+        try:
+            bl.set_power(True)
+        except:
+            print >> sys.stderr, "coudl not screen on"
+
+
 
 
     ##### Stoppuhr ######
