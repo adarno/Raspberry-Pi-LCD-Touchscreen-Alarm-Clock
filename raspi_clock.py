@@ -28,7 +28,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
-        #self.showFullScreen()      # show window in full screen
+        self.showFullScreen()      # show window in full screen
         self.setWindowTitle("Clock")
         self.setupUi(self)
         try:
