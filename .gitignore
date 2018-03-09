@@ -11,3 +11,6 @@ alarm_form.pyc
 alarm_window.pyc
 raspi_threads.pyc
 .idea/
+alarm_window.cpp
+alarm_window.h
+
