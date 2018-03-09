@@ -114,11 +114,13 @@ class AlarmClockThread(QtCore.QThread):
         self.stop_request = False
         self.repeat = False
         self.id = id
+        self.btnStop = None
 
     def set_alarm(self, alarm_time):
         self.alarm_time = alarm_time
 
     def abort(self):
+        print("alarm " + str(self.id) + " aborted.")
         self.stop_request = True
 
     def run(self):

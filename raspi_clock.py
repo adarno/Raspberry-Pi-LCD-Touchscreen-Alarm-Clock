@@ -116,7 +116,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
         self.alarm_wind = AlarmForm(self)
 
-    def on_alarm_added(self, wake_time):
+    def on_alarm_added(self, alarm_id):
         # display alarms
 
         # add horizontal layout to tabs containing time and stop button
@@ -124,10 +124,13 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
         self.verticalLayout_7.addLayout(container)
 
-        alarm_label = QtGui.QLabel(wake_time, self)
-        btnAlarmStop = QtGui.QPushButton("Stop", self)
+        alarm_label = QtGui.QLabel(self.alarms[alarm_id].alarm_time, self)
+        self.alarms[alarm_id].btnStop = QtGui.QPushButton("Stop", self)
+        self.alarms[alarm_id].btnStop.clicked.connect(self.alarms[alarm_id].abort)
         container.addWidget(alarm_label)
-        container.addWidget(btnAlarmStop)
+        container.addWidget(self.alarms[alarm_id].btnStop)
+
+    def on_alarm_removed(self):
         return
 
     def on_alarm(self):
