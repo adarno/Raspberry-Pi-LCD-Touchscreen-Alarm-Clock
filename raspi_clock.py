@@ -28,7 +28,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
-        self.showFullScreen()      # show window in full screen
+        #self.showFullScreen()      # show window in full screen
         self.setWindowTitle("Clock")
         self.setupUi(self)
         try:
@@ -116,11 +116,18 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
         self.alarm_wind = AlarmForm(self)
 
-    def on_alarm_added(self):
+    def on_alarm_added(self, wake_time):
         # display alarms
-        self.alarm_label = QtGui.QLabel("Alarm", self)
-        self.verticalLayout_7.addWidget(self.alarm_label)
 
+        # add horizontal layout to tabs containing time and stop button
+        container = QtGui.QHBoxLayout()
+
+        self.verticalLayout_7.addLayout(container)
+
+        alarm_label = QtGui.QLabel(wake_time, self)
+        btnAlarmStop = QtGui.QPushButton("Stop", self)
+        container.addWidget(alarm_label)
+        container.addWidget(btnAlarmStop)
         return
 
     def on_alarm(self):

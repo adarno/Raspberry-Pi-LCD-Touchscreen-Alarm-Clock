@@ -67,7 +67,7 @@ class AlarmForm(QtGui.QDialog, Ui_Alarm_window):
         self.main_window.alarms[alarm_id].set_alarm(self.ui.label_wake_time.text())
         self.main_window.alarms[alarm_id].onAlarm.connect(self.main_window.on_alarm)
         self.main_window.alarms[alarm_id].start()
-        self.main_window.on_alarm_added()
+        self.main_window.on_alarm_added(alarm.alarm_time)
 
         self.close()
 
