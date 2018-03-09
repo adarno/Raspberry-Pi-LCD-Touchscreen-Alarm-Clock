@@ -1,0 +1,13 @@
+# files to be ignored by git
+main.cpp
+mainwindow.cpp
+mainwindow.h
+mainwindow.pro
+mainwindow.pro.user
+mainwindow.ui.autosave
+alarm_window.py
+alarm_form/*
+alarm_form.pyc
+alarm_window.pyc
+raspi_threads.pyc
+.idea/
