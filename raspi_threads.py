@@ -107,6 +107,7 @@ class TimerThread(QtCore.QThread):
 class AlarmClockThread(QtCore.QThread):
 
     onAlarm = QtCore.pyqtSignal()
+    removeAlarm = QtCore.pyqtSignal(int)
 
     def __init__(self, id):
         super(AlarmClockThread, self).__init__()
@@ -115,6 +116,7 @@ class AlarmClockThread(QtCore.QThread):
         self.repeat = False
         self.id = id
         self.btnStop = None
+        self.layout = None
 
     def set_alarm(self, alarm_time):
         self.alarm_time = alarm_time
@@ -122,6 +124,7 @@ class AlarmClockThread(QtCore.QThread):
     def abort(self):
         print("alarm " + str(self.id) + " aborted.")
         self.stop_request = True
+        self.removeAlarm.emit(self.id)
 
     def run(self):
         print("started alarm thread")
@@ -132,3 +135,4 @@ class AlarmClockThread(QtCore.QThread):
                 if not self.repeat:
                     break
             time.sleep(5)
+        self.abort()

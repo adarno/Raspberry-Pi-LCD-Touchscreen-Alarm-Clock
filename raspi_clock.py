@@ -120,18 +120,22 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         # display alarms
 
         # add horizontal layout to tabs containing time and stop button
-        container = QtGui.QHBoxLayout()
+        self.alarms[alarm_id].layout = QtGui.QHBoxLayout()
 
-        self.verticalLayout_7.addLayout(container)
+        self.verticalLayout_7.addLayout(self.alarms[alarm_id].layout)
 
-        alarm_label = QtGui.QLabel(self.alarms[alarm_id].alarm_time, self)
+        self.alarms[alarm_id].alarm_label = QtGui.QLabel(self.alarms[alarm_id].alarm_time, self)
         self.alarms[alarm_id].btnStop = QtGui.QPushButton("Stop", self)
         self.alarms[alarm_id].btnStop.clicked.connect(self.alarms[alarm_id].abort)
-        container.addWidget(alarm_label)
-        container.addWidget(self.alarms[alarm_id].btnStop)
+        self.alarms[alarm_id].removeAlarm.connect(self.on_alarm_removed)
+        self.alarms[alarm_id].layout.addWidget(self.alarms[alarm_id].alarm_label)
+        self.alarms[alarm_id].layout.addWidget(self.alarms[alarm_id].btnStop)
 
-    def on_alarm_removed(self):
-        return
+    def on_alarm_removed(self, alarm_id):
+        print("removing")
+        self.alarms[alarm_id].btnStop.deleteLater()
+        self.alarms[alarm_id].alarm_label.deleteLater()
+        self.alarms[alarm_id].layout.deleteLater()
 
     def on_alarm(self):
 
