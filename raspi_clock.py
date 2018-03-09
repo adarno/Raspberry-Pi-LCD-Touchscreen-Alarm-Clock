@@ -116,11 +116,12 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
         self.alarm_wind = AlarmForm(self)
 
-        """alarm = AlarmClockThread()
-        self.alarms.append(alarm)
-        self.alarms[0].set_alarm("20:20")
-        self.alarms[0].onAlarm.connect(self.on_alarm)
-        self.alarms[0].start()"""
+    def on_alarm_added(self):
+        # display alarms
+        self.alarm_label = QtGui.QLabel("Alarm", self)
+        self.verticalLayout_7.addWidget(self.alarm_label)
+
+        return
 
     def on_alarm(self):
 
