@@ -7,7 +7,7 @@ try:
 except:
     print >> sys.stderr, "PyQt4 not installed\n"
 
-from raspi_threads import MyThread, TimerThread, StopWatchThread, AlarmClockThread
+from raspi_threads import MyThread, TimerThread, StopWatchThread, SoundThread
 from alarm_form import AlarmForm
 import datetime
 from alarm_window import Ui_Alarm_window
@@ -102,6 +102,9 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.timerThread.secondElapsed.connect(self.onTimerSecondElapsed)
         self.timerThread.onFinished.connect(self.timer_finished)
 
+        # sound
+        self.sound_thread = None
+
     ##### Uhr  #####
     @QtCore.pyqtSlot(int)
     def on_myThread_updateTime(self):
@@ -144,7 +147,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         try:
             bl.set_power(True)
         except:
-            print >> sys.stderr, "coudl not screen on"
+            print >> sys.stderr, "could not turn screen on"
+
+        # play sound
+        self.sound_thread = SoundThread("sounds/alarm1.m4a")
+        self.sound_thread.start()
 
 
 

@@ -1,6 +1,7 @@
 from PyQt4 import QtCore
 import time
 import datetime
+import os
 
 
 class MyThread(QtCore.QThread):
@@ -136,3 +137,15 @@ class AlarmClockThread(QtCore.QThread):
                     break
             time.sleep(5)
         self.abort()
+
+class SoundThread(QtCore.QThread):
+
+    def __init__(self, sound):
+        super(SoundThread, self).__init__()
+        self.sound = sound
+
+    def run(self):
+        os.system("cvlc " + self.sound)
+
+    def stop(self):
+        os.system("CTRL+C")
