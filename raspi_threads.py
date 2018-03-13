@@ -2,6 +2,8 @@ from PyQt4 import QtCore
 import time
 import datetime
 import os
+import signal
+import subprocess
 
 
 class MyThread(QtCore.QThread):
@@ -20,6 +22,7 @@ class MyThread(QtCore.QThread):
             self.timeElapsed.emit()
             time.sleep(1)
         self.quitThread.emit()
+
 
 class StopWatchThread(QtCore.QThread):
     secondElapsed = QtCore.pyqtSignal(int)
@@ -107,7 +110,7 @@ class TimerThread(QtCore.QThread):
 
 class AlarmClockThread(QtCore.QThread):
 
-    onAlarm = QtCore.pyqtSignal()
+    onAlarm = QtCore.pyqtSignal(int)
     removeAlarm = QtCore.pyqtSignal(int)
 
     def __init__(self, id):
@@ -132,20 +135,25 @@ class AlarmClockThread(QtCore.QThread):
         while not self.stop_request:
             current_time = str(datetime.datetime.today().strftime("%H : %M"))
             if current_time == self.alarm_time:
-                self.onAlarm.emit()
+                self.onAlarm.emit(self.id)
                 if not self.repeat:
                     break
             time.sleep(5)
         self.abort()
+
 
 class SoundThread(QtCore.QThread):
 
     def __init__(self, sound):
         super(SoundThread, self).__init__()
         self.sound = sound
+        self.player = None
 
     def run(self):
-        os.system("cvlc " + self.sound)
+        # start sound play back
+        self.pro = subprocess.Popen("cvlc " + self.sound, stdout=subprocess.PIPE,
+                               shell=True, preexec_fn=os.setsid)
 
     def stop(self):
-        os.system("CTRL+C")
+        # stop current sound playback
+        os.killpg(os.getpgid(self.pro.pid), signal.SIGTERM)  # Send the signal to all the process groups

@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from PyQt4 import QtGui, QtCore
 from raspi_threads import AlarmClockThread
 from alarm_window import Ui_Alarm_window
@@ -73,3 +74,37 @@ class AlarmForm(QtGui.QDialog, Ui_Alarm_window):
 
     def quit(self):
         self.close()
+
+
+class SnoozeWindow(QtGui.QWidget):
+
+    def __init__(self, main, sound_thread):
+        QtGui.QWidget.__init__(self)
+        self.main = main
+        self.sound_thread = sound_thread
+
+        grid = QtGui.QGridLayout()
+        grid.setSpacing(10)
+
+        self.btnOK = QtGui.QPushButton('Stop', self)
+        self.btnOK.clicked.connect(self.stop)
+        grid.addWidget(self.btnOK, 1, 0)
+
+        self.btnQuit = QtGui.QPushButton("Snooze", self)
+        self.btnQuit.clicked.connect(self.snooze)
+        grid.addWidget(self.btnQuit, 2, 0)
+
+        self.setLayout(grid)
+
+        self.setGeometry(300, 300, 290, 150)
+        self.setWindowTitle('New Alarm')
+        self.show()
+
+    def stop(self):
+        self.sound_thread.stop()
+        print("terminating")
+
+
+    def snooze(self):
+        print("snooze")
+

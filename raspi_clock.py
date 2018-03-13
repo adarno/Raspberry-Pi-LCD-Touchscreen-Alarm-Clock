@@ -1,6 +1,7 @@
 
 import sys
 import os
+import subprocess
 
 try:
     from PyQt4 import QtCore, QtGui, uic
@@ -8,7 +9,7 @@ except:
     print >> sys.stderr, "PyQt4 not installed\n"
 
 from raspi_threads import MyThread, TimerThread, StopWatchThread, SoundThread
-from alarm_form import AlarmForm
+from alarm_form import AlarmForm, SnoozeWindow
 import datetime
 from alarm_window import Ui_Alarm_window
 
@@ -140,11 +141,12 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.alarms[alarm_id].alarm_label.deleteLater()
         self.alarms[alarm_id].layout.deleteLater()
 
-    def on_alarm(self):
+    def on_alarm(self, alarm_id):
 
         print("alarm")
         # turn screen on
         try:
+            bl.set_power(True)
             bl.set_power(True)
         except:
             print >> sys.stderr, "could not turn screen on"
@@ -152,6 +154,9 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         # play sound
         self.sound_thread = SoundThread("sounds/alarm1.m4a")
         self.sound_thread.start()
+
+        # open window to stop alarm or snooze
+        self.snooze = SnoozeWindow(self, self.sound_thread)
 
 
 

@@ -64,14 +64,14 @@
      <item>
       <widget class="QPushButton" name="btnHourMinus">
        <property name="text">
-        <string>+</string>
+        <string>-</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnMinMinus">
        <property name="text">
-        <string>+</string>
+        <string>-</string>
        </property>
       </widget>
      </item>
