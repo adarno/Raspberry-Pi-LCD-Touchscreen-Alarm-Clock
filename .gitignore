@@ -15,3 +15,5 @@ alarm_window.cpp
 alarm_window.h
 source_mainwindow.py
 .gitignore
+rpi-backlight/*
+sounds/*
