@@ -156,7 +156,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.sound_thread.start()
 
         # open window to stop alarm or snooze
-        self.snooze = SnoozeWindow(self, self.sound_thread)
+        self.snooze = SnoozeWindow(self, self.sound_thread, alarm_id)
 
 
 

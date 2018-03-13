@@ -78,10 +78,11 @@ class AlarmForm(QtGui.QDialog, Ui_Alarm_window):
 
 class SnoozeWindow(QtGui.QWidget):
 
-    def __init__(self, main, sound_thread):
+    def __init__(self, main, sound_thread, alarm_id):
         QtGui.QWidget.__init__(self)
         self.main = main
         self.sound_thread = sound_thread
+        self.alarm_id = alarm_id
 
         grid = QtGui.QGridLayout()
         grid.setSpacing(10)
@@ -103,8 +104,14 @@ class SnoozeWindow(QtGui.QWidget):
     def stop(self):
         self.sound_thread.stop()
         print("terminating")
+        # close window
+        self.close()
+        # remove alarm from alarm tabs
+        self.main.on_alarm_removed(self.alarm_id)
 
 
     def snooze(self):
         print("snooze")
+        # close window
+        self.close()
 
