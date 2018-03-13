@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import time
 from PyQt4 import QtGui, QtCore
 from raspi_threads import AlarmClockThread
 from alarm_window import Ui_Alarm_window
@@ -102,16 +103,23 @@ class SnoozeWindow(QtGui.QWidget):
         self.show()
 
     def stop(self):
+        # stop alarm
         self.sound_thread.stop()
-        print("terminating")
+
         # close window
         self.close()
+
         # remove alarm from alarm tabs
         self.main.on_alarm_removed(self.alarm_id)
 
-
     def snooze(self):
-        print("snooze")
+        # stop alarm
+        self.sound_thread.stop()
+
         # close window
         self.close()
+
+        # restart alarm in specified time
+        time.sleep(5 * 60)
+        self.main.on_alarm(self.alarm_id)
 
