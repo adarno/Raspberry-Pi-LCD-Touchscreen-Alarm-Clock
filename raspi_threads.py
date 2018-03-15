@@ -5,6 +5,8 @@ import os
 import signal
 import subprocess
 
+from server import CommunicationHandler
+
 
 class MyThread(QtCore.QThread):
     timeElapsed = QtCore.pyqtSignal()
@@ -55,7 +57,6 @@ class StopWatchThread(QtCore.QThread):
                 self.secondElapsed.emit(self.count/10)
         self.stop_request = False
         self.is_running = False
-
 
 
 class TimerThread(QtCore.QThread):
@@ -157,3 +158,26 @@ class SoundThread(QtCore.QThread):
     def stop(self):
         # stop current sound playback
         os.killpg(os.getpgid(self.pro.pid), signal.SIGTERM)  # Send the signal to all the process groups
+
+
+class CommandsThread(QtCore.QThread):
+
+    onChangeScreen = QtCore.pyqtSignal()
+
+    def __init__(self, main_window):
+        super(CommandsThread, self).__init__()
+        self.main_window = main_window
+
+    def run(self):
+
+        while True:
+            if CommunicationHandler.changeScreen:
+                # change screen
+                print("changing screen")
+                try:
+                    self.onChangeScreen.emit()
+                except Exception:
+                    raise Exception()
+                CommunicationHandler.changeScreen = False
+            time.sleep(0.1)
+

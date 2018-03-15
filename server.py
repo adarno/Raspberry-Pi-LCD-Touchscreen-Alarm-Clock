@@ -23,7 +23,7 @@ class CallbackServer(QtCore.QThread):
 
     def run(self):
         """Start the server."""
-        server_address = ("192.168.188.21", PORT)
+        server_address = ("192.168.188.31", PORT)
         server = SocketServer.TCPServer(server_address, TestHandler)
         server.serve_forever()
 
@@ -56,6 +56,7 @@ class TestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "X-Requested-With")
 
     def do_GET(self):
+        """ Handle a GET request."""
 
         parsed = urlparse(self.path)
         code = parse_qs(parsed.query)['q']
@@ -63,7 +64,7 @@ class TestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         if code == "screen":
             print("set screen " + str(not CommunicationHandler.changeScreen))
-            CommunicationHandler.changeScreen = not CommunicationHandler.changeScreen
+            CommunicationHandler.changeScreen = True
 
 
         self.send_response(200, 'OK')
