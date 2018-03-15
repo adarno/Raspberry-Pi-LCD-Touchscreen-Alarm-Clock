@@ -12,6 +12,7 @@ from raspi_threads import MyThread, TimerThread, StopWatchThread, SoundThread
 from alarm_form import AlarmForm, SnoozeWindow
 import datetime
 from alarm_window import Ui_Alarm_window
+import server
 
 try:
     import rpi_backlight as bl
@@ -29,7 +30,7 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
-        self.showFullScreen()      # show window in full screen
+        #self.showFullScreen()      # show window in full screen
         self.setWindowTitle("Clock")
         self.setupUi(self)
         try:
@@ -105,6 +106,10 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
 
         # sound
         self.sound_thread = None
+
+        # http server
+        self.my_server = server.CallbackServer()
+        self.my_server.start()
 
     ##### Uhr  #####
     @QtCore.pyqtSlot(int)
