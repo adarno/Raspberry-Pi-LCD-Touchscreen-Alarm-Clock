@@ -4,6 +4,7 @@ import datetime
 import os
 import signal
 import subprocess
+import pygame
 
 from server import CommunicationHandler
 
@@ -142,18 +143,34 @@ class AlarmClockThread(QtCore.QThread):
             time.sleep(5)
         self.abort()
 
+class SnoozeThread(QtCore.QThread):
+
+    onAlarm = QtCore.pyqtSignal(int)
+
+    def __init__(self, main, alarm_id):
+        super(SnoozeThread, self).__init__()
+        self.alarm_id = alarm_id
+
+    def run(self):
+        time.sleep(60)
+        self.onAlarm.emit(self.alarm_id)
+
+
 
 class SoundThread(QtCore.QThread):
 
     def __init__(self, sound):
         super(SoundThread, self).__init__()
-        self.sound = sound
-        self.player = None
+        self.sound = sound  # path to sound
+        self.player = None  # player object
+        #self.lock = QtCore.QMutex()
 
     def run(self):
         # start sound play back
+        #self.lock.lock()
         self.pro = subprocess.Popen("cvlc " + self.sound, stdout=subprocess.PIPE,
                                shell=True, preexec_fn=os.setsid)
+        #self.lock.unlock()
 
     def stop(self):
         # stop current sound playback
@@ -161,6 +178,8 @@ class SoundThread(QtCore.QThread):
 
 
 class CommandsThread(QtCore.QThread):
+
+    """ Listens for incoming commands on HTTP server."""
 
     onChangeScreen = QtCore.pyqtSignal()
 
@@ -176,8 +195,8 @@ class CommandsThread(QtCore.QThread):
                 print("changing screen")
                 try:
                     self.onChangeScreen.emit()
-                except Exception:
-                    raise Exception()
+                except:
+                    self.main_window.onScreenOff()
                 CommunicationHandler.changeScreen = False
             time.sleep(0.1)
 

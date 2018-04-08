@@ -1,8 +1,9 @@
 import sys
+import os
 import subprocess
 import time
 from PyQt4 import QtGui, QtCore
-from raspi_threads import AlarmClockThread
+from raspi_threads import AlarmClockThread, SnoozeThread
 from alarm_window import Ui_Alarm_window
 
 
@@ -84,6 +85,7 @@ class SnoozeWindow(QtGui.QWidget):
         self.main = main
         self.sound_thread = sound_thread
         self.alarm_id = alarm_id
+        self.snooze_obj = None
 
         grid = QtGui.QGridLayout()
         grid.setSpacing(10)
@@ -104,7 +106,13 @@ class SnoozeWindow(QtGui.QWidget):
 
     def stop(self):
         # stop alarm
-        self.sound_thread.stop()
+        #self.sound_thread.stop()
+
+        # turn radio off
+        try:
+            os.system("sudo ./codesend 1397844,, -l 445 -p 0")
+        except:
+            print >> sys.stderr, "Could not turn off radio!"
 
         # close window
         self.close()
@@ -114,12 +122,21 @@ class SnoozeWindow(QtGui.QWidget):
 
     def snooze(self):
         # stop alarm
-        self.sound_thread.stop()
+        #self.sound_thread.stop()
+
+        # turn radio off
+        try:
+            os.system("sudo ./codesend 1397844,, -l 445 -p 0")
+        except:
+            print >> sys.stderr, "Could not turn off radio!"
+
+
+
+        # restart alarm in specified time
+        self.snooze_obj = SnoozeThread(self.main, self.alarm_id)
+        self.snooze_obj.onAlarm.connect(self.main.on_alarm)
+        self.snooze_obj.start()
 
         # close window
         self.close()
-
-        # restart alarm in specified time
-        time.sleep(5 * 60)
-        self.main.on_alarm(self.alarm_id)
 

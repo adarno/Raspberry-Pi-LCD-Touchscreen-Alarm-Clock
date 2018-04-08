@@ -1,4 +1,32 @@
+""" raspi_clock.py
 
+    Main script for raspberry pi lcd touch screen alarm clock application.
+
+    Codes for wireless power outlets:
+
+         "1":
+            "on" => 1381717,
+            "off" => 1381716
+
+        "2":
+            "on" => 1394005,
+            "off" => 1394004
+
+        "3":
+            "on" => 1397077,
+            "off" => 1397076
+
+        "4":
+            "on" => 1397845,
+            "off" => 1397844
+
+        "5":
+            "on" => 357635,
+            "off" => 357644
+
+        Executalbe codesend must be in directory.
+
+"""
 import sys
 import os
 import subprocess
@@ -160,8 +188,17 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
             print >> sys.stderr, "could not turn screen on"
 
         # play sound
-        self.sound_thread = SoundThread("sounds/alarm1.m4a")
-        self.sound_thread.start()
+        #self.sound_thread = SoundThread("sounds/alarm1.m4a")
+        #self.sound_thread.start()
+
+        try:
+            # light on
+            os.system("sudo ./codesend 1381717,, -l 445 -p 0")
+            # hifi radio on
+            os.system("sudo ./codesend 1397845,, -l 445 -p 0")
+
+        except:
+            print("Could not turn light on!")
 
         # open window to stop alarm or snooze
         self.snooze = SnoozeWindow(self, self.sound_thread, alarm_id)
@@ -267,6 +304,11 @@ class MyApp(QtGui.QMainWindow, Ui_MainWindow):
         self.timerS = 0
         self.timerM = 0
         self.timerH = 0
+
+        # play sound
+        self.sound_thread = SoundThread("sounds/Bell.m4a")
+        self.sound_thread.start()
+
 
     def hour_plus(self):
         self.timerH += 1
